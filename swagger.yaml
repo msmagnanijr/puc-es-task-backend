@@ -1,0 +1,127 @@
+swagger: '2.0'
+info:
+  title: 'Tasks API'
+  version: '1.0'
+  description: 'API for managing tasks'
+paths:
+  /tasks:
+    get:
+      summary: 'List all tasks'
+      responses:
+        '200':
+          description: 'A list of tasks'
+    post:
+      summary: 'Create a new task'
+      parameters:
+        - in: 'body'
+          name: 'task'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              title:
+                type: 'string'
+                description: 'Title of the task'
+              description:
+                type: 'string'
+                description: 'Description of the task'
+      responses:
+        '201':
+          description: 'Task created successfully'
+  /tasks/{task_id}:
+    get:
+      summary: 'Get a task by ID'
+      parameters:
+        - in: 'path'
+          name: 'task_id'
+          type: 'integer'
+          required: true
+          description: 'ID of the task'
+      responses:
+        '200':
+          description: 'The task with the given ID'
+        '404':
+          description: 'Task not found'
+    put:
+      summary: 'Update a task by ID'
+      parameters:
+        - in: 'path'
+          name: 'task_id'
+          type: 'integer'
+          required: true
+          description: 'ID of the task'
+        - in: 'body'
+          name: 'task'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              title:
+                type: 'string'
+                description: 'Title of the task'
+              description:
+                type: 'string'
+                description: 'Description of the task'
+      responses:
+        '200':
+          description: 'Task updated successfully'
+        '404':
+          description: 'Task not found'
+    delete:
+      summary: 'Delete a task by ID'
+      parameters:
+        - in: 'path'
+          name: 'task_id'
+          type: 'integer'
+          required: true
+          description: 'ID of the task'
+      responses:
+        '200':
+          description: 'Task deleted successfully'
+        '404':
+          description: 'Task not found'
+  /tasks/get_news:
+      get:
+        summary: Get News
+        parameters:
+          - name: keyword
+            in: query
+            required: true
+            schema:
+              type: string
+            description: Keyword for news search.
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    news:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                          description:
+                            type: string
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
